@@ -71,23 +71,25 @@ def custom_func(layer_outputs):
 with st.beta_expander(label = 'Modify args'):
     columns = st.beta_columns(4)
 
-    columns[0].number_input('width', value = 512)
-    columns[1].number_input('height', value = 256)
-    columns[2].number_input('iters', value = 120)
-    columns[3].number_input('lr', value = 9e-3)
+    width = columns[0].number_input('width', value = 256)
+    height = columns[1].number_input('height', value = 256)
+    iters = columns[2].number_input('iters', value = 120)
+    lr = columns[3].number_input('lr', value = 9e-3)
 
     columns2 = st.beta_columns(4)
-    columns2[0].number_input('rotate (deg)', value = 15)
+    rotate_degrees = columns2[0].number_input('rotate (deg)', value = 15)
 
 
-    columns2[1].number_input('scale max', value = 1.2)
-    columns2[2].number_input('scale min', value = 0.5)
-    columns2[3].number_input('gradient clip', value= 1.)
+    scale_max = columns2[1].number_input('scale max', value = 1.2)
+    scale_min = columns2[2].number_input('scale min', value = 0.5)
+    grad_clip = columns2[3].number_input('gradient clip', value= 1.)
 
     columns3 = st.beta_columns(3)
 
-    columns3[0].number_input('translate_y', value = 0.2)
-    columns3[1].number_input('translate (x)', value= 0.2)
+    translate_x = columns3[0].number_input('translate (x)', value = 0.2)
+    translate_y = columns3[1].number_input('translate (y)', value= 0.2)
+    weight_decay = columns3[2].number_input('weight decay', value= 1e-3)
+
 
 
 
@@ -121,11 +123,22 @@ if len(layers_to_use) != 0:
 
     image_param = dreamy_boi.render(
         layers = layers_to_use, 
-        custom_func= my_custom_func
+        custom_func= my_custom_func,
+        width= width,
+        height=height,
+        iters= iters,
+        lr = lr, 
+        rotate_degrees= rotate_degrees,
+        scale_max= scale_max,
+        scale_min= scale_min,
+        translate_x= translate_x,
+        translate_y= translate_y,
+        weight_decay= weight_decay,
+        grad_clip= grad_clip
     )
     
-    _, c, _ = st.beta_columns(3)
-    c.image(image_param.to_hwc_tensor().numpy())
+    
+    st.image(image_param.to_hwc_tensor().numpy())
 else:
     # st.error("you did not pick any layer :(")
     pass
