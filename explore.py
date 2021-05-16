@@ -19,11 +19,11 @@ st.markdown(
 layers_to_use =  []
 
 models_dict = {
+    'inception_v3':  torchvision.models.inception_v3(pretrained =True),
     'resnet18':      torchvision.models.resnet18(pretrained =True),
     'resnet50':      torchvision.models.resnet50(pretrained =True),
     'resnet101':     torchvision.models.resnet101(pretrained =True),
     'googlenet':     torchvision.models.googlenet(pretrained =True),
-    'inception_v3':  torchvision.models.inception_v3(pretrained =True),
     'deeplabv3_resnet50': torchvision.models.segmentation.deeplabv3_resnet50(pretrained= True)
 
 }
@@ -68,6 +68,29 @@ def custom_func(layer_outputs):
     return -loss
 """
 
+with st.beta_expander(label = 'Modify args'):
+    columns = st.beta_columns(4)
+
+    columns[0].number_input('width', value = 512)
+    columns[1].number_input('height', value = 256)
+    columns[2].number_input('iters', value = 120)
+    columns[3].number_input('lr', value = 9e-3)
+
+    columns2 = st.beta_columns(4)
+    columns2[0].number_input('rotate (deg)', value = 15)
+
+
+    columns2[1].number_input('scale max', value = 1.2)
+    columns2[2].number_input('scale min', value = 0.5)
+    columns2[3].number_input('gradient clip', value= 1.)
+
+    columns3 = st.beta_columns(3)
+
+    columns3[0].number_input('translate_y', value = 0.2)
+    columns3[1].number_input('translate (x)', value= 0.2)
+
+
+
 if st.checkbox('Channel objective'):
 
     from utils.default_custom_funcs import make_custom_func
@@ -101,9 +124,9 @@ if len(layers_to_use) != 0:
         custom_func= my_custom_func
     )
     
-
-    st.image(image_param.to_hwc_tensor().numpy())
+    _, c, _ = st.beta_columns(3)
+    c.image(image_param.to_hwc_tensor().numpy())
 else:
-    st.write("you did not pick any layer :(")
+    # st.error("you did not pick any layer :(")
     pass
 
