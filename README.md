@@ -24,7 +24,7 @@ Here's an example:
 def custom_func(layer_outputs):
     '''
     layer_outputs is a list containing 
-    the outputs of each layer you selected
+    the outputs (torch.tensor) of each layer you selected
 
     In this example we'll try to optimize the following:
     * the entire first layer -> layer_outputs[0].mean()
@@ -62,7 +62,6 @@ pip install -r requirements.txt
 ```
 
 showtime
-
 ```
 streamlit run explore.py
 ```
