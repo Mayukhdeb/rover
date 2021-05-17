@@ -1,0 +1,2 @@
+streamlit==0.82.0
+torch-dreams==2.1.1
