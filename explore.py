@@ -73,8 +73,6 @@ with st.beta_expander(label = 'Modify args'):
     weight_decay = columns3[2].number_input('weight decay', value= 1e-3)
 
 
-
-
 if st.checkbox('Channel objective'):
 
     from utils.default_custom_funcs import make_custom_func
@@ -104,22 +102,23 @@ if st.checkbox('Write your own custom objective'):
 if len(layers_to_use) != 0:
 
     if  st.button(label = 'Run'):
+        with st.spinner("running..."):
 
-        image_param = dreamy_boi.render(
-            layers = layers_to_use, 
-            custom_func= my_custom_func,
-            width= width,
-            height=height,
-            iters= iters,
-            lr = lr, 
-            rotate_degrees= rotate_degrees,
-            scale_max= scale_max,
-            scale_min= scale_min,
-            translate_x= translate_x,
-            translate_y= translate_y,
-            weight_decay= weight_decay,
-            grad_clip= grad_clip
-        )
+            image_param = dreamy_boi.render(
+                layers = layers_to_use, 
+                custom_func= my_custom_func,
+                width= width,
+                height=height,
+                iters= iters,
+                lr = lr, 
+                rotate_degrees= rotate_degrees,
+                scale_max= scale_max,
+                scale_min= scale_min,
+                translate_x= translate_x,
+                translate_y= translate_y,
+                weight_decay= weight_decay,
+                grad_clip= grad_clip
+            )
         
         
         st.image(image_param.to_hwc_tensor().numpy())
@@ -131,7 +130,6 @@ else:
 with st.beta_expander(label = 'Read more'):
     st.markdown(
         """
-
         ## Args
         * `width` (`int`, optional): Width of image to be optimized 
         * `height` (`int`, optional): Height of image to be optimized 
