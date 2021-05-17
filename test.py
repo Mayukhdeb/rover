@@ -12,7 +12,3 @@ from rover.default_models import models_dict
 core.run(
     models_dict = models_dict
 )
-
-# core.run(
-#     models_dict = models_dict
-# )
