@@ -1,5 +1,9 @@
 # Rover :mag: 
-Reverse engineer your CNNs, in style
+> Reverse engineer your CNNs, in style
+
+Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
+
+It supports pretty much any PyTorch model with an input of shape `[N, 3, H, W]` (even segmentation models/VAEs and all that fancy stuff) with imagenet normalization on input.
 
 
 ## Args
