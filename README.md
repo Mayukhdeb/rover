@@ -7,6 +7,33 @@ Rover will help you break down your CNN and visualize the features from within t
 
 It supports pretty much any PyTorch model with an input of shape `[N, 3, H, W]` (even segmentation models/VAEs and all that fancy stuff) with imagenet normalization on input.
 
+## Channel objective
+
+Optimizes a single channel from one of the layer(s) selected.
+
+* **layer index**: specifies which layer you want to use out of the layers selected. 
+* **channel index**: specifies the exact channel which needs to be visualized. 
+
+## Writing your own objective
+
+This is for the smarties who like to write their own objective function. The only constraint is that the function should be named `custom_func`.
+
+Here's an example:
+
+```python
+def custom_func(layer_outputs):
+    '''
+    layer_outputs is a list containing 
+    the outputs of each layer you selected
+
+    In this example we'll try to optimize the following:
+    * the entire first layer -> layer_outputs[0].mean()
+    * 20th channel of the 2nd layer -> layer_outputs[1][20].mean()
+    '''
+    loss = layer_outputs[0].mean() + layer_outputs[1][20].mean()
+    return -loss
+```
+
 
 ## Args
 * `width` (`int`, optional): Width of image to be optimized 
