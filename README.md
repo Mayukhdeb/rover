@@ -71,6 +71,38 @@ def custom_func(layer_outputs):
     return -loss
 ```
 
+## Running on google colab 
+
+Check out this notebook. I'll also include the instructions here just in case. 
+
+Download + install ngrok:
+```
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+```
+
+```
+unzip -o ngrok-stable-linux-amd64.zi
+```
+
+Start a thread where you run your script
+```python
+import threading
+
+proc = threading.Thread(target= os.system, args=['streamlit run test.py'])
+proc.start()
+```
+
+More ngrok stuff
+```python
+get_ipython().system_raw('./ngrok http 8501 &')
+```
+
+Get your URL where `rover` is hosted 
+```
+curl -s http://localhost:4040/api/tunnels | python3 -c \
+    "import sys, json; print(json.load(sys.stdin)['tunnels'][0]['public_url'])"
+```
+
 
 ## :computer: Args
 * `width` (`int`, optional): Width of image to be optimized 
