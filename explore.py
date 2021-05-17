@@ -3,6 +3,7 @@ import streamlit as st
 import torch 
 import torchvision
 from torch_dreams.dreamer import dreamer
+from utils.default_models import models_dict
 
 st.set_page_config(
     page_title="Rover",
@@ -16,17 +17,6 @@ st.markdown(
     """
 )
 
-layers_to_use =  []
-
-models_dict = {
-    'inception_v3':  torchvision.models.inception_v3(pretrained =True),
-    'resnet18':      torchvision.models.resnet18(pretrained =True),
-    'resnet50':      torchvision.models.resnet50(pretrained =True),
-    'resnet101':     torchvision.models.resnet101(pretrained =True),
-    'googlenet':     torchvision.models.googlenet(pretrained =True),
-    'deeplabv3_resnet50': torchvision.models.segmentation.deeplabv3_resnet50(pretrained= True)
-
-}
 
 col1, col2 = st.beta_columns(2)
 
@@ -42,17 +32,11 @@ dreamy_boi = dreamer(model, device = 'cuda')
 
 layers_dict = dict(model.named_modules())
 
-all_buttons = []
-count = 0
-
-
 names = col2.multiselect(
         "Pick layer(s)",
         options = list(layers_dict.keys())
     )
 
-with st.beta_expander(label = 'Show selected layers'):
-    st.write('You selected:', names)
 
 layers_to_use = []
 
@@ -62,11 +46,9 @@ for name in names:
 
 my_custom_func = None
 
-default_str_custom_func = """
-def custom_func(layer_outputs):
+default_str_custom_func = """def custom_func(layer_outputs):
     loss = layer_outputs[0][20].mean()
-    return -loss
-"""
+    return -loss"""
 
 with st.beta_expander(label = 'Modify args'):
     columns = st.beta_columns(4)
@@ -102,7 +84,7 @@ if st.checkbox('Channel objective'):
     layer_index = c1.number_input(label =   "Enter layer index", value = 0)
     channel_index = c2.number_input(label = "Enter channel index", value = 9)
 
-    my_custom_func = make_custom_func(layer_number= layer_index, channel_number= channel_index)
+    my_custom_func = make_custom_func(layer_number= layer_index, channel_number= channel_index, center= False)
 
     
 if st.checkbox('Write your own custom objective'):
@@ -121,25 +103,47 @@ if st.checkbox('Write your own custom objective'):
 
 if len(layers_to_use) != 0:
 
-    image_param = dreamy_boi.render(
-        layers = layers_to_use, 
-        custom_func= my_custom_func,
-        width= width,
-        height=height,
-        iters= iters,
-        lr = lr, 
-        rotate_degrees= rotate_degrees,
-        scale_max= scale_max,
-        scale_min= scale_min,
-        translate_x= translate_x,
-        translate_y= translate_y,
-        weight_decay= weight_decay,
-        grad_clip= grad_clip
-    )
-    
-    
-    st.image(image_param.to_hwc_tensor().numpy())
+    if  st.button(label = 'Run'):
+
+        image_param = dreamy_boi.render(
+            layers = layers_to_use, 
+            custom_func= my_custom_func,
+            width= width,
+            height=height,
+            iters= iters,
+            lr = lr, 
+            rotate_degrees= rotate_degrees,
+            scale_max= scale_max,
+            scale_min= scale_min,
+            translate_x= translate_x,
+            translate_y= translate_y,
+            weight_decay= weight_decay,
+            grad_clip= grad_clip
+        )
+        
+        
+        st.image(image_param.to_hwc_tensor().numpy())
 else:
     # st.error("you did not pick any layer :(")
     pass
+
+
+with st.beta_expander(label = 'Read more'):
+    st.markdown(
+        """
+
+        ## Args
+        * `width` (`int`, optional): Width of image to be optimized 
+        * `height` (`int`, optional): Height of image to be optimized 
+        * `iters` (`int`, optional): Number of iterations, higher -> stronger visualization
+        * `lr` (`float`, optional): Learning rate
+        * `rotate (deg)` (`int`, optional): Max rotation in default transforms
+        * `scale max` (`float`, optional): Max image size factor. 
+        * `scale min` (`float`, optional): Minimum image size factor. 
+        * `translate (x)` (`float`, optional): Maximum translation factor in x direction
+        * `translate (y)` (`float`, optional): Maximum translation factor in y direction
+        * `weight decay` (`float`, optional): Weight decay for default optimizer. Helps prevent high frequency noise. 
+        * `gradient clip` (`float`, optional): Maximum value of the norm of gradient. 
+        """
+    )
 
