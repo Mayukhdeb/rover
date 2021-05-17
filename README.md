@@ -1,4 +1,4 @@
-# Rover :mag: 
+# :mag: Rover 
 > Reverse engineer your CNNs, in style
 
 <img src = "images/demo_1.gif" width = "60%">
@@ -7,14 +7,14 @@ Rover will help you break down your CNN and visualize the features from within t
 
 It supports pretty much any PyTorch model with an input of shape `[N, 3, H, W]` (even segmentation models/VAEs and all that fancy stuff) with imagenet normalization on input.
 
-## Channel objective
+## :framed_picture: Channel objective
 
 Optimizes a single channel from one of the layer(s) selected.
 
 * **layer index**: specifies which layer you want to use out of the layers selected. 
 * **channel index**: specifies the exact channel which needs to be visualized. 
 
-## Writing your own objective
+## :mage_man: Writing your own objective
 
 This is for the smarties who like to write their own objective function. The only constraint is that the function should be named `custom_func`.
 
@@ -35,7 +35,7 @@ def custom_func(layer_outputs):
 ```
 
 
-## Args
+## :computer: Args
 * `width` (`int`, optional): Width of image to be optimized 
 * `height` (`int`, optional): Height of image to be optimized 
 * `iters` (`int`, optional): Number of iterations, higher -> stronger visualization
