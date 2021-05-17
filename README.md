@@ -5,7 +5,7 @@
 
 Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
 
-## Usage
+## :computer: Usage
 
 ```python
 from rover import core
@@ -14,10 +14,22 @@ from rover.default_models import models_dict
 core.run(models_dict = models_dict)
 
 ```
+and then run the script with streamlit as:
+
+```
+$ streamlit run your_script.py
+```
+
+if everything goes right, you'll see something like:
+```
+You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+```
+
+## :mage: Custom models
 
 `rover` supports pretty much any PyTorch model with an input of shape `[N, 3, H, W]` (even segmentation models/VAEs and all that fancy stuff) with imagenet normalization on input.
-
-## Custom models
 
 ```python
 import torchvision.models as models 
