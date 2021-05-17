@@ -5,6 +5,9 @@ import torchvision
 from torch_dreams.dreamer import dreamer
 from utils.default_models import models_dict
 
+from utils.rendering import run_render
+from utils.markdown import show_arg_defs
+
 st.set_page_config(
     page_title="Rover",
     page_icon=":mag",  # EP: how did they find a symbol?
@@ -102,9 +105,8 @@ if st.checkbox('Write your own custom objective'):
 if len(layers_to_use) != 0:
 
     if  st.button(label = 'Run'):
-        with st.spinner("running..."):
-
-            image_param = dreamy_boi.render(
+        run_render(
+                dreamer = dreamy_boi,
                 layers = layers_to_use, 
                 custom_func= my_custom_func,
                 width= width,
@@ -119,29 +121,10 @@ if len(layers_to_use) != 0:
                 weight_decay= weight_decay,
                 grad_clip= grad_clip
             )
-        
-        
-        st.image(image_param.to_hwc_tensor().numpy())
 else:
     # st.error("you did not pick any layer :(")
     pass
 
 
 with st.beta_expander(label = 'Read more'):
-    st.markdown(
-        """
-        ## Args
-        * `width` (`int`, optional): Width of image to be optimized 
-        * `height` (`int`, optional): Height of image to be optimized 
-        * `iters` (`int`, optional): Number of iterations, higher -> stronger visualization
-        * `lr` (`float`, optional): Learning rate
-        * `rotate (deg)` (`int`, optional): Max rotation in default transforms
-        * `scale max` (`float`, optional): Max image size factor. 
-        * `scale min` (`float`, optional): Minimum image size factor. 
-        * `translate (x)` (`float`, optional): Maximum translation factor in x direction
-        * `translate (y)` (`float`, optional): Maximum translation factor in y direction
-        * `weight decay` (`float`, optional): Weight decay for default optimizer. Helps prevent high frequency noise. 
-        * `gradient clip` (`float`, optional): Maximum value of the norm of gradient. 
-        """
-    )
-
+    show_arg_defs()
