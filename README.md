@@ -12,7 +12,13 @@ Rover will help you break down your CNN and visualize the features from within t
 ## :computer: Usage
 
 ```
-pip install git+https://github.com/Mayukhdeb/rover.git
+git clone https://github.com/Mayukhdeb/rover.git; cd rover
+```
+
+install requirements:
+
+```
+pip install -r requirements.txt
 ```
 
 ```python
