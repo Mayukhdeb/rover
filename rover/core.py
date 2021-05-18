@@ -1,16 +1,15 @@
 import streamlit as st
+from streamlit.errors import StreamlitAPIException
 
 from torch_dreams.dreamer import dreamer
 
 from .default_models import models_dict
 from .rendering import run_render
 from .markdown import show_arg_defs
-from .__custom_func__ import custom_func
 from .default_custom_funcs import make_custom_func
 from .constants import Constants
 
 
-@st.cache
 def get_heading():
     st.set_page_config(
         page_title="Rover",
@@ -24,14 +23,8 @@ def get_heading():
         """
     )
 
+def run_core(models_dict):
 
-def run(models_dict):
-
-    if Constants.first_run == True:
-        get_heading()
-        Constants.first_run = False
-    else:
-        pass
 
     col1, col2 = st.beta_columns(2)
 
@@ -61,10 +54,6 @@ def run(models_dict):
 
 
     my_custom_func = None
-
-    default_str_custom_func = """def custom_func(layer_outputs):
-        loss = layer_outputs[0][20].mean()
-        return -loss"""
 
     with st.beta_expander(label = 'Modify args'):
         columns = st.beta_columns(4)
@@ -101,12 +90,19 @@ def run(models_dict):
 
         
     if st.checkbox('Write your own custom objective'):
-        text = st.text_area(label = 'Write your objective function here', value = default_str_custom_func, height= 100)
+
+        try:
+            from .__custom_func__ import custom_func
+        except ImportError:
+            custom_func_file = open("rover/__custom_func__.py", "w")
+            n = custom_func_file.write(Constants.default_str_custom_func)
+            custom_func_file.close()
+
+        text = st.text_area(label = 'Write your objective function here', value = Constants.default_str_custom_func, height= 100)
 
         st.code(text)
 
         custom_func_file = open("rover/__custom_func__.py", "w")
-        print(os.path.dirname(__file__))
 
         n = custom_func_file.write(text)
         custom_func_file.close()
@@ -140,3 +136,11 @@ def run(models_dict):
 
     with st.beta_expander(label = 'Read more'):
         show_arg_defs()
+
+
+def run(models_dict):
+    
+    get_heading()
+    run_core(models_dict = models_dict)
+
+    
