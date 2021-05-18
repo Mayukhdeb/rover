@@ -7,8 +7,8 @@ from .rendering import run_render
 from .markdown import show_arg_defs
 from .__custom_func__ import custom_func
 from .default_custom_funcs import make_custom_func
+from .constants import Constants
 
-FIRST_RUN = False 
 
 @st.cache
 def get_heading():
@@ -27,9 +27,9 @@ def get_heading():
 
 def run(models_dict):
 
-    if FIRST_RUN == False:
+    if Constants.first_run == False:
         get_heading()
-        FIRST_RUN = True
+        Constants.first_run = True
     else:
         pass
 
