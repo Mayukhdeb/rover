@@ -132,5 +132,5 @@ pip install -r requirements.txt
 
 showtime
 ```
-streamlit run explore.py
+streamlit run test.py
 ```
