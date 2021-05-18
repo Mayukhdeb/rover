@@ -134,10 +134,6 @@ def run_core(models_dict):
         pass
 
 
-    with st.beta_expander(label = 'Read more'):
-        show_arg_defs()
-
-
 def run(models_dict):
     
     get_heading()
