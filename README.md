@@ -1,7 +1,7 @@
 # :mag: Rover 
 > Reverse engineer your CNNs, in style
 
-<img src = "images/demo_1.gif" width = "60%">
+<img src = "https://raw.githubusercontent.com/Mayukhdeb/rover/master/images/demo_1.gif" width = "60%">
 
 Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
 
