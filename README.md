@@ -1,6 +1,8 @@
 # :mag: Rover 
 > Reverse engineer your CNNs, in style
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mayukhdeb/rover/blob/master/notebooks/rover_on_colab.ipynb)
+
 <img src = "https://raw.githubusercontent.com/Mayukhdeb/rover/master/images/demo_1.gif" width = "60%">
 
 Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
@@ -47,7 +49,7 @@ You can now view your Streamlit app in your browser.
 
 ```python
 import torchvision.models as models 
-model = models.resnet34(pretrained= True)  ## or any other model
+model = models.resnet34(pretrained= True)  ## or any other model (need not be from torchvision.models)
 
 models_dict = {
     'my model': model,  ## add in any number of models :)
