@@ -27,9 +27,9 @@ def get_heading():
 
 def run(models_dict):
 
-    if Constants.first_run == False:
+    if Constants.first_run == True:
         get_heading()
-        Constants.first_run = True
+        Constants.first_run = False
     else:
         pass
 

@@ -1,2 +1,2 @@
 class Constants:
-    first_run = False
+    first_run = True
