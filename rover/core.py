@@ -1,6 +1,7 @@
 import streamlit as st
 
 import torch 
+# import os
 import torchvision
 from torch_dreams.dreamer import dreamer
 
@@ -10,12 +11,11 @@ from .markdown import show_arg_defs
 from .__custom_func__ import custom_func
 from .default_custom_funcs import make_custom_func
 
-
-def run(models_dict):
-
+@st.cache
+def get_heading():
     st.set_page_config(
-    page_title="Rover",
-    page_icon=":mag",  # EP: how did they find a symbol?
+        page_title="Rover",
+        page_icon=":mag",  # EP: how did they find a symbol?
 
     )
 
@@ -24,6 +24,11 @@ def run(models_dict):
         """Built with [torch-dreams](https://github.com/Mayukhdeb/torch-dreams)
         """
     )
+
+
+def run(models_dict):
+
+    get_heading()
 
 
     col1, col2 = st.beta_columns(2)
@@ -99,6 +104,7 @@ def run(models_dict):
         st.code(text)
 
         custom_func_file = open("rover/__custom_func__.py", "w")
+        print(os.path.dirname(__file__))
 
         n = custom_func_file.write(text)
         custom_func_file.close()
