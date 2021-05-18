@@ -1,8 +1,5 @@
 import streamlit as st
 
-import torch 
-# import os
-import torchvision
 from torch_dreams.dreamer import dreamer
 
 from .default_models import models_dict
@@ -10,6 +7,8 @@ from .rendering import run_render
 from .markdown import show_arg_defs
 from .__custom_func__ import custom_func
 from .default_custom_funcs import make_custom_func
+
+FIRST_RUN = False 
 
 @st.cache
 def get_heading():
@@ -28,8 +27,11 @@ def get_heading():
 
 def run(models_dict):
 
-    get_heading()
-
+    if FIRST_RUN == False:
+        get_heading()
+        FIRST_RUN = True
+    else:
+        pass
 
     col1, col2 = st.beta_columns(2)
 
