@@ -7,6 +7,10 @@ Rover will help you break down your CNN and visualize the features from within t
 
 ## :computer: Usage
 
+```
+pip install git+https://github.com/Mayukhdeb/rover.git
+```
+
 ```python
 from rover import core
 from rover.default_models import models_dict
