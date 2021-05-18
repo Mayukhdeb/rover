@@ -5,6 +5,10 @@
 
 Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
 
+* :heavy_check_mark: Can be run via google colab 
+* :heavy_check_mark: Supports custom PyTorch models too (not just `torchvision.models`)
+* :heavy_check_mark: `hackerman mode` for crafty people
+
 ## :computer: Usage
 
 ```
@@ -77,7 +81,7 @@ def custom_func(layer_outputs):
 
 ## Running on google colab 
 
-Check out this notebook. I'll also include the instructions here just in case. 
+Check out [this notebook](https://colab.research.google.com/github/Mayukhdeb/rover/blob/master/notebooks/rover_on_colab.ipynb). I'll also include the instructions here just in case. 
 
 Download + install ngrok:
 ```
