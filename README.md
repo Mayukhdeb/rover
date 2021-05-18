@@ -5,9 +5,9 @@
 
 Rover will help you break down your CNN and visualize the features from within the model. No need to write weirdly abstract code to visualize your model's features anymore. 
 
-* :heavy_check_mark: Can be run via google colab 
-* :heavy_check_mark: Supports custom PyTorch models too (not just `torchvision.models`)
-* :heavy_check_mark: `hackerman mode` for crafty people
+* :heavy_check_mark: [Can be hosted on google colab](https://colab.research.google.com/github/Mayukhdeb/rover/blob/master/notebooks/rover_on_colab.ipynb)
+* :heavy_check_mark: [Supports custom PyTorch models](https://github.com/Mayukhdeb/rover/blob/master/README.md#mage-custom-models) (not just `torchvision.models`)
+* :heavy_check_mark: [`hackerman mode`](https://github.com/Mayukhdeb/rover/blob/master/README.md#mage_man-writing-your-own-objective) for crafty people who want to write their own objective functions.
 
 ## :computer: Usage
 
@@ -89,21 +89,41 @@ def custom_func(layer_outputs):
 
 Check out [this notebook](https://colab.research.google.com/github/Mayukhdeb/rover/blob/master/notebooks/rover_on_colab.ipynb). I'll also include the instructions here just in case. 
 
-Download + install ngrok:
+Clone the repo + install dependencies
 ```
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-```
-
-```
-unzip -o ngrok-stable-linux-amd64.zi
+!git clone https://github.com/Mayukhdeb/rover.git
+!pip install torch-dreams --quiet
+!pip install streamlit --quiet
 ```
 
-Start a thread where you run your script
+Navigate into the repo
+```python
+import os 
+os.chdir('rover')
+```
+
+Write your file into a script from a cell. Here I wrote it into `test.py`
+```python
+%%writefile  test.py
+
+from rover import core
+from rover.default_models import models_dict
+
+core.run(models_dict = models_dict)
+```
+
+Run script on a thread
 ```python
 import threading
 
 proc = threading.Thread(target= os.system, args=['streamlit run test.py'])
 proc.start()
+```
+
+Download ngrok:
+```
+!wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+!unzip -o ngrok-stable-linux-amd64.zi
 ```
 
 More ngrok stuff
@@ -113,7 +133,7 @@ get_ipython().system_raw('./ngrok http 8501 &')
 
 Get your URL where `rover` is hosted 
 ```
-curl -s http://localhost:4040/api/tunnels | python3 -c \
+!curl -s http://localhost:4040/api/tunnels | python3 -c \
     "import sys, json; print(json.load(sys.stdin)['tunnels'][0]['public_url'])"
 ```
 
